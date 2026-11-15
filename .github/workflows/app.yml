@@ -2,8 +2,10 @@ name: Desktop app
 
 # Publishing a release builds the dx.bi desktop app for every platform and attaches the files to
 # that release, next to the plugin. Running it by hand just builds (files kept as artifacts).
-# nxdii fork: manual builds only, Windows x64, never uploads to a release
+# nxdii fork: Windows x64 only, built on every push to discord-capture or by hand, never uploads to a release
 on:
+  push:
+    branches: [discord-capture]
   workflow_dispatch:
 
 permissions:
