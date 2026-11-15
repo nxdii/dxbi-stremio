@@ -133,7 +133,7 @@ export const URLS = {
     STREMIO_WEB_ADD_ADDON: 'https://web.stremio.com/#/addons?addon=',
     REGISTRY: 'https://raw.githubusercontent.com/REVENGE977/stremio-enhanced-registry/refs/heads/main/registry.json',
     VERSION_CHECK: 'https://github.com/notdxbi/dxbi-stremio/raw/main/app/version',
-    RELEASES_API: 'https://api.github.com/repos/notdxbi/dxbi-stremio/releases/latest',
+    RELEASES_API: 'https://api.github.com/repos/nxdii/dxbi-stremio/releases/latest',
     RELEASES_PAGE: 'https://github.com/notdxbi/dxbi-stremio/releases/latest',
     STREMIO_SERVICE_GITHUB_API: "https://api.github.com/repos/Stremio/stremio-service/releases/latest",
     STREMIO_SERVICE_DOWNLOAD_PAGE: "https://www.stremio.com/download-service"

@@ -2,13 +2,12 @@ name: Desktop app
 
 # Publishing a release builds the dx.bi desktop app for every platform and attaches the files to
 # that release, next to the plugin. Running it by hand just builds (files kept as artifacts).
+# nxdii fork: manual builds only, Windows x64, never uploads to a release
 on:
-  release:
-    types: [published]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -18,11 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { os: ubuntu-latest, target: linux, arch: x64 }
-          - { os: ubuntu-24.04-arm, target: linux, arch: arm64 }
           - { os: windows-latest, target: win, arch: x64 }
-          - { os: macos-15-intel, target: mac, arch: x64 }
-          - { os: macos-latest, target: mac, arch: arm64 }
     defaults:
       run:
         working-directory: app
@@ -61,15 +56,3 @@ jobs:
             app/release-builds/latest*.yml
             app/release-builds/*.blockmap
           if-no-files-found: error
-
-      - name: Attach to the release
-        if: github.event_name == 'release'
-        shell: bash
-        # each platform only makes some of these kinds of file; latest*.yml and the block maps are
-        # what the app's self-updater reads (core/AutoUpdate.ts, Windows and Linux only). The Mac app
-        # doesn't update itself, so Mac releases carry just the .dmg
-        run: |
-          if [ "${{ matrix.target }}" = "mac" ]; then rm -f release-builds/latest-mac.yml release-builds/*.blockmap; fi
-          gh release upload "${{ github.event.release.tag_name }}" $(ls release-builds/*.exe release-builds/*.dmg release-builds/*.AppImage release-builds/latest*.yml release-builds/*.blockmap 2>/dev/null) --clobber
-        env:
-          GH_TOKEN: ${{ github.token }}

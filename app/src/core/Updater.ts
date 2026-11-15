@@ -18,6 +18,16 @@ class Updater {
      * @param showNoUpdatePrompt - Whether to show a message if no update is available
      */
     public static async checkForUpdates(showNoUpdatePrompt: boolean): Promise<boolean> {
+        // Patched build (nxdii/dxbi-stremio): never offer the official release
+        this.logger.info("Patched build: update checks are off.");
+        if (showNoUpdatePrompt) {
+            await this.alert("info", "Updates are off", `This is a patched build of dx.bi (v${this.getCurrentVersion()}). It doesn't check for or install official updates.`, ["OK"]);
+        }
+        return false;
+    }
+
+    /** The original check against the latest release (unused in the patched build) */
+    public static async checkOfficialUpdates(showNoUpdatePrompt: boolean): Promise<boolean> {
         try {
             const release = await this.getLatestRelease();
             const latestVersion = release.version;

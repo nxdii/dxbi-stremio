@@ -9,8 +9,11 @@ import { getLogger } from "../utils/logger";
 // "Update available → Download" popup (core/Updater.ts).
 
 const logger = getLogger("AutoUpdate");
+const PATCHED_BUILD = true;
 
 export function canAutoUpdate(): boolean {
+    // Patched build (nxdii/dxbi-stremio): never download or install an update over itself
+    if (PATCHED_BUILD) return false;
     if (!app.isPackaged) return false;
     if (process.platform === "win32") return !process.env.PORTABLE_EXECUTABLE_DIR;
     if (process.platform === "linux") return !!process.env.APPIMAGE;
